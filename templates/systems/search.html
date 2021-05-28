@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %} | Search Results{% endblock %}
+
+{% block content %}
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'systems' %}">
+              <i class="fas fa-home"></i> Home</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href="{% url 'systems' %}">Systems</a>
+          </li>
+          <li class="breadcrumb-item active"> Search</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+<section id="showcase-inner" class="showcase-search text-white pt-3 pb-5">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-12"><h4>Enter Search Criteria</h4>
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="col-md-12">
+          <form action="{% url 'systems' %}">
+            <!-- Form Row 1 -->
+            <div class="form-row">
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Comments</label>
+                <input type="text" name="comments" class="form-control" placeholder="Comments" value="{{ values.comments }}">
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Economy Level</label>
+                <select name="economy_level" class="form-control">
+                    <option selected="true" disabled="disabled">Economy Level (Any)</option>
+                    {% for key,value in economy_level_choices.items %}                      
+                        <option value="{{ key }}"
+                        {% if key == values.economy_level %}
+                          selected
+                        {% endif %}
+                        > {{ value }}</option>
+                    {% endfor %}
+                </select>
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Weather</label>
+                <select name="star_colour" class="form-control">
+                    <option selected="true" disabled="disabled">Star Colour (Any)</option>
+                    {% for key,value in star_colour_choices.items %}
+                        <option value="{{ key }}"
+                        {% if key == values.star_colour %}
+                          selected
+                        {% endif %}
+                        > {{ value }}</option>
+                    {% endfor %}
+                </select>
+              </div>
+            </div>
+            <!-- Form Row 2 -->
+            <div class="form-row">
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Economy Description</label>
+                <input type="text" name="economy_desc" class="form-control" placeholder="Economy Description" value="{{ values.economy_desc }}">
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Race</label>
+                <select name="race" class="form-control">
+                    <option selected="true" disabled="disabled">Race (Any)</option>
+                    {% for key,value in race_choices.items %}
+                        <option value="{{ key }}"
+                        {% if key == values.race %}
+                          selected
+                        {% endif %}
+                        > {{ value }}</option>
+                    {% endfor %}
+                </select>
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Galaxy</label>
+                <select name="galaxy" class="form-control">
+                    <option selected="true" disabled="disabled">Galaxy (Any)</option>
+                    {% for key,value in galaxy_choices.items %}
+                        <option value="{{ key }}"
+                        {% if key == values.galaxy %}
+                          selected
+                        {% endif %}
+                        > {{ value }}</option>
+                    {% endfor %}
+                </select>
+              </div>
+
+            </div>
+            <!-- Form Row 3-->
+            <div class="form-row text-left">
+              <div class="col-md-4 mb-3">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" name="partially_mapped_systems">Partially Mapped System
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" name="black_hole">Black Hole
+                  </label>
+                </div>
+              </div>
+              <!-- Portal Address -->
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Portal Address</label>
+                <input type="text" name="portal_address" class="form-control" placeholder="Portal Address (Hex code)" value="">
+              </div>
+            </div>
+
+            <!-- Form Row 4 -->
+            <!-- Derelict Freighter Salvaged -->
+            <div class="form-row text-left">
+              <div class="col-md-4 mb-3">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" name="derelict_freighter_salvaged">Derelict Freighter Salvaged
+                  </label>
+                </div>
+              </div>
+
+              <!-- Derelict Freighter Name -->
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Derelict Freighter Name</label>
+                <input type="text" name="derelict_freighter_name" class="form-control" placeholder="Derelict Freighter Name" value="{{ values.derelict_freighter_name }}">
+              </div>
+
+              <!-- Derelict Freighter Salvage Notes -->
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Derelict Freighter Salvage Notes</label>
+                <input type="text" name="derelict_freighter_notes" class="form-control" placeholder="Derelict Freighter Salvage Notes" value="{{ values.derelict_freighter_notes }}">
+              </div>
+            </div>
+
+            <button class="btn btn-secondary btn-block mt-4" type="submit"><h4>Search</h4></button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

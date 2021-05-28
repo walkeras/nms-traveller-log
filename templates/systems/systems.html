@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %} | Browse Systems{% endblock %}
+
+{% block content %}
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <div class="row">
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mr-auto">
+            <li class="breadcrumb-item">
+              <a href="{% url 'systems' %}">
+                <i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item active">{% if is_search %} Search Results ({{ systems|length }}) {% else %} Browse Systems ({{ systemCount }}) {% endif %}</li>
+          </ol>
+          </nav>
+        </div>
+        <div class="col-md-auto">
+          <div class="edit-button"><a href="{% url 'admin:systems_system_add' %}" title="New System"><i class="fas fa-plus-circle"></i></a></div>
+        </div>
+        <div class="col-md-auto">
+          <form id="systemSortByForm" class="form-inline my-2 my-lg-0" method="GET">
+            {% csrf_token %}
+            <span class="mr-2">Sort By</span>
+            <select class="form-control" name="sortBy" id="systemSortBy">
+              {% for key,value in sortByChoices.items %}
+                <option value="{{ key }}"
+                {% if key == sortBy %}
+                  selected
+                {% endif %}
+                > {{ value }}</option>
+              {% endfor %}
+          </select>
+          </form>
+        </div>
+        <div class="col-md-auto">
+          <form class="form-inline my-2 my-lg-0" action="{% url 'systems_search' %}">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Full Search</button>
+          </form>
+        </div>
+        <div class="col-md-auto">
+          <form class="form-inline my-2 my-lg-0" method="POST">
+            {% csrf_token %}
+            <input class="form-control mr-sm-2" type="search" placeholder="Quick Name Search" aria-label="Search" name="systemname">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Systems -->
+  <section id="systems" class="py-4">
+    <div class="container">
+      <div class="row">
+
+        {% if systems %}
+          {% for system in systems %}
+        <!-- System -->
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="card listing-preview">
+            
+            <img class="card-img-top" src="{{ system.photo_main_url|default_if_none:'#' }}" alt="">
+            
+            <div class="card-img-overlay">
+              <h3>
+                <span class="badge badge-pill badge-secondary text-white" style="position: absolute; right: 10px;">{{ system.race }}</span>
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="listing-heading text-center">
+                <h4 class="text-primary"><a href="{% url 'system' system.id %}">{{ system.name }}</a></h4>
+                {% if system.economy_level.level == "A" or system.economy_level.level == "B" or system.economy_level.level == "C"%}
+                <p>{{ system.economy_desc }} / {{ system.economy_level }}
+                  {% if system.economy_level.level == "A" %}<span class="badge system-econ-level-badge-a">
+                  {% elif system.economy_level.level == "B" %}<span class="badge system-econ-level-badge-b">
+                  {% elif system.economy_level.level == "C" %}<span class="badge system-econ-level-badge-c">
+                  {% endif %}
+                  {{ system.economy_level.level }}</span>
+                </p>
+                {% else %}
+                  <p>{{ system.economy_desc }} / {{ system.economy_level }}</p>
+                {% endif %}
+              </div>
+              <hr>
+              <div class="row py-2 text-secondary">
+                <div class="col-6">
+                  <i class="fas fa-dot-circle"></i> {% if system.gc_dist is None %} ? {% else %} {{ system.gc_dist | intcomma }} {% endif %} LY</div>
+                <div class="col-6">
+                  <!-- Star Colour , CLassification -->
+                  Star 
+                  {% if system.star_colour == "Yellow" %}
+                  <i class="fas fa-sun" style="color:yellow;background-color: lightgray;"></i>
+                  {% elif system.star_colour == "Red" %}
+                  <i class="fas fa-sun" style="color:red;"></i>
+                  {% elif system.star_colour == "Green" %}
+                  <i class="fas fa-sun" style="color:green;"></i>
+                  {% elif system.star_colour == "Blue" %}
+                  <i class="fas fa-sun" style="color:blue;"></i>
+                  {% else %}
+                  <i class="fas fa-sun" style="color:lightgray;background-color: black;"></i>
+                  {% endif %}
+                  {{system.star_classification}}
+                </div>
+              </div>
+              <div class="row py-2 text-secondary">
+                <div class="col-6">
+                  <i class="fas fa-globe-americas"></i> {% if system.num_planets is None %} ? {% else %} {{ system.num_planets }} {% endif %} Planet{{ system.num_planets|pluralize }}</div>
+                <div class="col-6">
+                  <i class="fas fa-moon"></i> {% if system.num_moons is None %} ? {% else %} {{ system.num_moons }} {% endif %} Moon{{ system.num_moons|pluralize }}</div>
+              </div>
+              <div class="row py-2 text-secondary">
+                <div class="col-12">
+                  {% if system.portal_address %}
+                    <p class="nms-glyphs border border-primary rounded-pill mb-0 px-1">{{ system.portal_address }}</p>
+                  {% else %}
+                    <p>Portal Address Unknown</p>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="row pb-2 text-secondary">
+                <div class="col-12">
+                  <i class="fas fa-globe"></i>
+                  {% if system.galaxy %}
+                    {% if system.galaxy.type == 'Norm' %}<span class="galaxy-norm" title="Norm">{{ system.galaxy.name }}</span>
+                    {% elif system.galaxy.type == 'Lush' %} <span class="galaxy-lush" title="Lush">{{ system.galaxy.name }}</span>
+                    {% elif system.galaxy.type == 'Harsh' %} <span class="galaxy-harsh" title="Harsh">{{ system.galaxy.name }}</span>
+                    {% elif system.galaxy.type == 'Empty' %} <span class="galaxy-empty" title="Empty">{{ system.galaxy.name }}</span>
+                    {% endif %}
+                  {% else %} <i class="fas fa-globe galaxy-empty" title="Unknown"> Unknown Galaxy
+                  {% endif %}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+          {% endfor %}
+        {% else %}
+          <div class="col-md-12">
+            <p>No Systems found</p>
+          </div>
+        {% endif %}
+
+      </div>
+
+      <!-- Paginator-->
+      <div class="row">
+        <div class="col-md-12">
+          {% if systems.has_other_pages %}
+            <ul class="pagination">
+              {% if systems.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{systems.previous_page_number}}">&laquo;</a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link">&laquo;</a>
+                </li>
+              {% endif %}
+
+              {% for i in systems.paginator.page_range %}
+                {% if systems.number == i %}
+                  <li class="page-item active">
+                    <a class="page-link">{{i}}</a>
+                  </li>
+                {% else %}
+                  <li class="page-item">
+                    <a href="?page={{i}}" class="page-link">{{i}}</a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+
+              {% if systems.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{systems.next_page_number}}">&raquo;</a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link">&raquo;</a>
+                </li>
+              {% endif %}
+              
+            </ul>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

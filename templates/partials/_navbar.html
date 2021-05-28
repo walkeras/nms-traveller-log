@@ -1,0 +1,128 @@
+{% load static %}
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top" style="background-image: url('{% static 'img/nav_bar_background.png' %}');">
+    <div class="container">
+        <a class="navbar-brand" href="" >
+        <img src="{% static 'img/NMS Logo.png' %}" class="logo" alt="" style="width:40px;height:57px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse nms-font" id="navbarNavAltMarkup">
+        <ul class="navbar-nav">
+            <!--
+            <li
+                {% if '/' == request.path %}
+                    class="nav-item active mr-3"
+                {% else %}
+                    class="nav-item mr-3"    
+                {% endif %} 
+            >
+            <a class="nav-link" href="">Home</a>
+            </li>
+            <li
+                {% if 'about' in request.path %}
+                    class="nav-item active mr-3"
+                {% else %}
+                    class="nav-item mr-3"    
+                {% endif %} 
+            >
+            <a class="nav-link" href="">About</a>
+            </li>
+            -->
+            <li
+                {% if 'systems' in request.path %}
+                    class="nav-item active mr-3"
+                {% else %}
+                    class="nav-item mr-3"    
+                {% endif %} 
+            >
+            <a class="nav-link" href="{% url 'systems' %}">Systems</a>
+            </li>
+            <li
+                {% if 'worlds' in request.path %}
+                    class="nav-item active mr-3"
+                {% else %}
+                    class="nav-item mr-3"    
+                {% endif %} 
+            >
+            <a class="nav-link" href="{% url 'worlds' %}">Worlds</a>
+            </li>
+            <li
+                {% if 'bases' in request.path %}
+                    class="nav-item active mr-3"
+                {% else %}
+                    class="nav-item mr-3"    
+                {% endif %} 
+            >
+            <a class="nav-link" href="{% url 'bases' %}">Bases</a>
+            </li>
+            <li
+                {% if 'gallery' in request.path %}
+                    class="nav-item active mr-3"
+                {% else %}
+                    class="nav-item mr-3"    
+                {% endif %} 
+            >
+            <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
+            </li>
+            <li
+                {% if 'gamesession' in request.path %}
+                    class="nav-item active mr-3"
+                {% else %}
+                    class="nav-item mr-3"    
+                {% endif %} 
+            >
+            <a class="nav-link" href="{% url 'gamesessions' %}">Game Session</a>
+            </li>
+            <!--
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Misc
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Regions</a>
+                  <a class="dropdown-item" href="#">Curiousities</a>
+                </div>
+            </li>
+            -->
+        </ul>
+
+        {% if gameSession.platform == 'XBox' %}
+        <i class="fab fa-xbox" style="color: #ffffff" title="{{ gameSession.name }} ( {{ gameSession.session_type }} )"></i>
+        {% endif %}
+        {% if gameSession.platform == 'Steam' %}
+        <i class="fab fa-steam" style="color: #ffffff" title="{{ gameSession.name }} ( {{ gameSession.session_type }} )"></i>
+        {% endif %}
+        {% if gameSession.platform == 'PlayStation' %}
+        <i class="fab fa-playstation" style="color: #ffffff" title="{{ gameSession.name }} ( {{ gameSession.session_type }} )"></i>
+        {% endif %}
+        {% if gameSession.platform == 'Windows' %}
+        <i class="fab fa-windows" style="color: #ffffff" title="{{ gameSession.name }} ( {{ gameSession.session_type }} )"></i>
+        {% endif %}
+
+        <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+                <li class="nav-item mr-3">
+                    <a class="nav-link" href=""> {{ user.username }}</a>
+                </li>
+                <li class="nav-item mr-3">
+                    <a href="javascript:{document.getElementById('logout').submit()}" class="nav-link">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                    <form action="{% url 'systems' %}" method="POST" id="logout">
+                        {% csrf_token %}
+                        <input type="hidden" name="logout" value="logout">
+                    </form>
+                </li>
+            {% else %}
+                <li class="nav-item mr-3">
+                    <a class="nav-link" href="{% url 'admin:login' %}">
+                    <i class="fas fa-sign-in-alt"></i> Login</a>
+                </li>
+            {% endif %}
+        </ul>
+        </div>
+    </div>
+</nav>
+    

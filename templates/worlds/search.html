@@ -1,0 +1,202 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %} | Search Results{% endblock %}
+
+{% block content %}
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'worlds' %}">
+              <i class="fas fa-home"></i> Home</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href="{% url 'worlds' %}">Worlds</a>
+          </li>
+          <li class="breadcrumb-item active"> Search</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+<section id="showcase-inner" class="showcase-search text-white pt-3 pb-5">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-12"><h4>Enter Search Criteria</h4>
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="col-md-12">
+          <form action="{% url 'worlds' %}">
+            <!-- Form Row 1 -->
+            <div class="form-row">
+              <!-- Resources Notes -->
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Resources Notes</label>
+                <input type="text" name="resources_notes" class="form-control" placeholder="Resources Notes" value="{{ values.resources_notes }}">
+              </div>
+
+              <!-- Resource -->
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Resource</label>
+                <select name="resource" class="form-control">
+                    <option selected="true" disabled="disabled">Resource (Any)</option>
+                    {% for r in resource_choices %}                      
+                        <option value="{{ r.name }}"
+                        {% if r.name == values.resource %}
+                          selected
+                        {% endif %}
+                        > {{ r.name }}</option>
+                    {% endfor %}
+                </select>
+              </div>
+
+              <!-- Weather Hazard Type-->
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Weather</label>
+                <select name="weather" class="form-control">
+                    <option selected="true" disabled="disabled">Weather (Any)</option>
+                    {% for key,value in weather_hazard_type_choices.items %}
+                        <option value="{{ key }}"
+                        {% if key == values.weather_hazard_type %}
+                          selected
+                        {% endif %}
+                        > {{ value }}</option>
+                    {% endfor %}
+                </select>
+              </div>
+            </div>
+
+            <!-- Form Row 2 -->
+            <div class="form-row">
+              <!-- Description -->
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Description</label>
+                <input type="text" name="description" class="form-control" placeholder="Description" value="{{ values.description }}">
+              </div>
+
+              <!-- Exotic World -->
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Exotic</label>
+                <select name="exotic" class="form-control">
+                    <option selected="true" disabled="disabled">Exotic (Any)</option>
+                    <option value="True">Exotic</option>
+                    <option value="False">Not Exotic</option>
+                </select>
+              </div>
+
+              <!-- Weather Notes -->
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Weather Notes</label>
+                <input type="text" name="weather_notes" class="form-control" placeholder="Weather Notes" value="{{ values.weather_notes }}">
+              </div>
+            </div>
+
+            <!-- Form Row 3 -->
+            <div class="form-row">
+              <!-- Fauna Hazard Level -->
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Fauna Hazard</label>
+                <select name="fauna_hazard" class="form-control">
+                  <option selected="true" disabled="disabled">Fauna Hazard (Any)</option>
+                    {% for key,value in fauna_hazard_choices.items %}                      
+                      <option value="{{ key }}"
+                        {% if key == values.fauna_hazard_choice %}
+                          selected
+                        {% endif %}
+                      > {{ value }}</option>
+                    {% endfor %}
+                </select>
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <!-- Sentinel Hazard Level -->
+                <label class="sr-only">Sentinel Hazard</label>
+                <select name="sentinel_hazard" class="form-control">
+                  <option selected="true" disabled="disabled">Sentinel Hazard (Any)</option>
+                    {% for key,value in sentinel_hazard_choices.items %}                      
+                      <option value="{{ key }}"
+                        {% if key == values.sentinel_hazard_choice %}
+                          selected
+                        {% endif %}
+                      > {{ value }}</option>
+                    {% endfor %}
+                </select>
+              </div>
+
+              <!-- Extreme World -->
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Exotic</label>
+                <select name="extreme" class="form-control">
+                    <option selected="true" disabled="disabled">Extreme (Any)</option>
+                    <option value="True">Extreme</option>
+                    <option value="False">Not Extreme</option>
+                </select>
+              </div>
+
+            </div>
+
+            <!-- Form Row 4 -->
+            <!-- Weather Description -->
+            <div class="form-row">
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Weather Description</label>
+                <input type="text" name="weather_desc" class="form-control" placeholder="Weather Description" value="{{ values.weather_desc }}">
+              </div>
+
+              <!-- Favourite -->
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Favourite</label>
+                <select name="favourite" class="form-control">
+                    <option selected="true" disabled="disabled">Favourite (Any)</option>
+                    <option value="True">Favourite</option>
+                    <option value="False">Not Favourite</option>
+                </select>
+              </div>
+
+              <!-- Portal Address -->
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Portal Address</label>
+                <input type="text" name="portal_address" class="form-control" placeholder="Portal Address (Hex code)" value="">
+              </div>
+            </div>
+
+            <!-- Form Row 5 -->
+            <div class="form-row text-left">
+              <!-- All Fauna Found -->
+              <div class="col-md-4 mb-3">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" name="all_fauna_found">All Fauna Found
+                  </label>
+                </div>
+              </div>
+              <!-- Galaxy -->
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Galaxy</label>
+                <select name="galaxy" class="form-control">
+                    <option selected="true" disabled="disabled">Galaxy (Any)</option>
+                    {% for key,value in galaxy_choices.items %}
+                        <option value="{{ key }}"
+                        {% if key == values.galaxy %}
+                          selected
+                        {% endif %}
+                        > {{ value }}</option>
+                    {% endfor %}
+                </select>
+              </div>
+            </div>
+            
+            <button class="btn btn-secondary btn-block mt-4" type="submit"><h4>Search</h4></button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

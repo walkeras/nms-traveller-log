@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %} | Browse Worlds{% endblock %}
+
+{% block content %}
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="{% url 'home' %}">
+                  <i class="fas fa-home"></i> Home</a>
+              </li>
+              <li class="breadcrumb-item active">{% if is_search %} Search Results ({{ worlds|length }}) {% else %} Browse Worlds {% endif %}</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-md-auto">
+          <div class="edit-button"><a href="{% url 'admin:worlds_world_add' %}" title="New World"><i class="fas fa-plus-circle"></i></a></div>
+        </div>
+        <div class="col-md-auto">
+          <form class="form-inline my-2 my-lg-0" action="{% url 'worlds_search' %}">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Full Search</button>
+          </form>
+        </div>
+        <div class="col-md-auto">
+          <form class="form-inline my-2 my-lg-0" method="POST">
+            {% csrf_token %}
+            <input class="form-control mr-sm-2" type="search" placeholder="Quick Name Search" aria-label="Search" name="worldname">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Worlds -->
+  <section id="worlds" class="py-4">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-md-12">
+          <h2>{% if total_worlds > 0 %}{{ total_worlds }} {% endif %} World{{ total_worlds|pluralize }}</h2>
+          {% if worlds %}
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th>Properties</th>
+                  <th scope="col">Galaxy</th>
+                  <th scope="col">System</th>
+                  <th scope="col">Description</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for world in worlds %}
+                  <tr>
+                    <td><a href="{% url 'world' world.id %}">{{ world.name}}</a> {% if world.favourite %}<i class="fa fa-star favourite" title="Favourite"></i>{% endif %}</td>
+                    <td>
+                      {% if world.weather_hazard_type == 'H' %}
+                      <i class="fas fa-fire" title="Fiery World"></i>
+                      {% elif world.weather_hazard_type == 'C' %}
+                      <i class="fas fa-snowflake" title="Frozen World"></i>
+                      {% elif world.weather_hazard_type == 'T' %}
+                      <i class="fas fa-biohazard" title="Toxic World"></i>
+                      {% elif world.weather_hazard_type == 'R' %}
+                      <i class="fas fa-radiation" title="Irradiated World"></i>
+                      {% elif world.weather_hazard_type == 'S' %}
+                      <i class="fas fa-cloud-showers-heavy" title="Humid World"></i>
+                      {% endif %}
+                      {% if world.has_base %}<i class="fas fa-bed" title="Base"></i>{% endif %}
+                      {% if world.is_weather_extreme %}<i class="fas fa-exclamation-triangle" title="Extreme Weather"></i>{% endif %}
+                      {% if world.is_exotic %}<i class="fas fa-question-circle" title="Exotic World"></i>{% endif %}
+                    </td>
+                    <td>{{ world.system.galaxy.name }}</td>
+                    <td><a href="{% url 'system' world.system.id %}">{{ world.system.name }}</a></td>
+                    {% if world.weather_hazard_type == 'H' %}
+                    <td class="weather-hazard-heat">
+                    {% elif world.weather_hazard_type == 'C' %}
+                    <td class="weather-hazard-cold">
+                    {% elif world.weather_hazard_type == 'T' %}
+                    <td class="weather-hazard-toxic">
+                    {% elif world.weather_hazard_type == 'R' %}
+                    <td class="weather-hazard-radiation">
+                    {% elif world.weather_hazard_type == 'S' %}
+                    <td class="weather-hazard-hot-rain">
+                    {% elif world.weather_hazard_type == 'N' %}
+                    <td class="weather-hazard-none">
+                    {% elif world.weather_hazard_type == 'U' %}
+                    <td class="weather-hazard-unknown">
+                    {% else %}
+                    <td>
+                    {% endif %}
+                    {{ world.description }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <p>No Worlds found</p>
+          {% endif %}
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          {% if worlds.has_other_pages %}
+            <ul class="pagination">
+              {% if worlds.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{worlds.previous_page_number}}">&laquo;</a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link">&laquo;</a>
+                </li>
+              {% endif %}
+              {% if pager_start_ellipsis %}
+                <li class="page-item">
+                  <span class="page-link">...</span>
+                </li>
+              {% endif %}
+
+
+              {% for i in pager_range %}
+              {% if worlds.number == i %}
+                  <li class="page-item active">
+                    <a class="page-link">{{i}}</a>
+                  </li>
+                {% else %}
+                  <li class="page-item">
+                    <a href="?page={{i}}" class="page-link">{{i}}</a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+
+              {% if pager_end_ellipsis %}
+                <li class="page-item">
+                  <span class="page-link">...</span>
+                </li>
+              {% endif %}
+              {% if worlds.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{worlds.next_page_number}}">&raquo;</a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link">&raquo;</a>
+                </li>
+              {% endif %}
+
+            </ul>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

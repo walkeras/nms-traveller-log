@@ -1,0 +1,202 @@
+
+/* body {
+  background-image: linear-gradient(to left,rgb(7,24,75), rgb(33,36,100));
+} */
+
+.btn-secondary {
+  color: #fff !important; }
+
+img {
+  width: 100%; }
+
+.logo {
+  width: 80px; }
+
+.navbar {
+  opacity: 0.9;
+  text-transform: uppercase; }
+
+.nms-font {
+  font-family: GeosansLight-NMS;
+}
+
+@font-face {
+  font-family: GeosansLight-NMS;
+  src: url("/static/webfonts/geonms-font.ttf")
+}
+
+.nms-glyphs {
+  font-family: "NMS Glyphs";
+  font-size: 1.5rem;
+}
+
+@font-face {
+  font-family: "NMS Glyphs";
+  src: url("/static/webfonts/NMS-Glyphs-Mono.ttf")
+}
+
+.system-banner {
+  background-image: url("/static/img/world_title_background.png");
+}
+
+.world-banner {
+  background-image: url("/static/img/world_title_background.png");
+}
+
+.base-banner {
+  background-image: url("/static/img/world_title_background.png");
+}
+
+.system-econ-level-badge-a {
+  background-color: red;
+  color: white;
+}
+
+.system-econ-level-badge-b {
+  background-color: orange;
+  color: black;
+}
+
+.system-econ-level-badge-c {
+  background-color: yellow;
+  color: #909090;
+}
+
+.system-econ-level-badge-u {
+  background-color: lightgray;
+  color: black;
+}
+
+.system-econ-level-badge-x {
+  background-color: darkred;
+  color: white;
+}
+
+.weather-hazard-hot-rain {
+  color: rgb(0, 216, 216);
+}
+
+.weather-hazard-heat {
+  color: red;
+}
+
+.weather-hazard-cold {
+  color: blue;
+}
+
+.weather-hazard-toxic {
+  color: rgb(135, 201, 37);
+}
+
+.weather-hazard-radiation {
+  color: orange;
+}
+
+.weather-hazard-unknown {
+  color: gray;
+}
+
+.weather-hazard-none {
+  color: green;
+}
+
+.favourite {
+ color: #e0e000;
+}
+
+.galaxy-norm {
+  color: blue;
+}
+
+.galaxy-lush {
+  color: green;
+}
+
+.galaxy-harsh {
+  color: red;
+}
+
+.galaxy-empty {
+  color: gray;
+}
+
+/* .table {
+  color: whitesmoke;
+}
+
+#worlds, #world, #bases, #base, #system {
+  color: white;
+}
+
+.fields {
+  color: black;
+  background-color: white;
+} */
+
+.edit-button {
+  font-size: 2rem;
+}
+
+#showcase {
+  position: relative;
+  min-height: 650px;
+  color: #fff;
+  padding-top: 6rem; }
+  #showcase .home-search {
+    min-height: 400px;
+    position: relative;
+    border-radius: 5px; }
+  #showcase .overlay {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 400px;
+    width: 100%;
+    background: rgba(51, 51, 51, 0.8); }
+
+#showcase-inner {
+  position: relative;
+  overflow: hidden; }
+  #showcase-inner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    width: 100%;
+    background: rgba(32, 134, 107, 0.8); }
+  #showcase-inner.showcase-search {
+    min-height: 270px; }
+
+#work {
+  padding: 6rem 0; }
+
+.listing-preview a {
+    position: relative; }
+
+@media (max-width: 991px) {
+  #showcase {
+    padding-top: 4rem; }
+    #showcase h1 {
+      font-size: 40px; }
+  .hide-md-down {
+    display: none; } }
+
+@media (max-width: 768px) {
+  #showcase {
+    padding-top: 3rem; }
+    #showcase h1 {
+      font-size: 40px; }
+    #showcase p {
+      display: none; }
+  #top-bar {
+    text-align: center; }
+    #top-bar .social {
+      text-align: center !important; } }
+
+@media (max-width: 576px) {
+  #showcase h1 {
+    font-size: 30px; }
+  #showcase-inner h1 {
+    font-size: 40px; } }

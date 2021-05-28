@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block title %} | Game Session{% endblock %}
+
+{% block content %}
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mr-auto">
+              <li class="breadcrumb-item">
+                <a href="{% url 'systems' %}">
+                  <i class="fas fa-home"></i> Home</a>
+              </li>
+            </ol>
+            </nav>
+          </div>
+        </div>
+    </div>
+  </section>
+
+  <section id="showcase-inner" class="showcase-search text-white pt-3 pb-5">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-12"><h4>Select Game Session</h4>
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="col-md-12">
+
+          <form action="{% url 'gamesessions' %}">
+            <!-- Form Row 1 -->
+              <div class="col-md-4 mb-3">
+                <select id="gameSession" name="game_session" class="form-control">
+                    <option selected="true" disabled="disabled">Game Session</option>
+                    {% for gs in gamesessions %}                      
+                        <option value="{{ gs.id }}"
+                        {% if gs.id == gameSession.id %} selected {% endif %}
+                        > {{ gs.name }} [{{ gs.platform }}]</option>
+                    {% endfor %}
+                </select>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+
+{% endblock %}

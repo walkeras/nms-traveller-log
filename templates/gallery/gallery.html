@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block title %} | Browse Gallery{% endblock %}
+
+{% block content %}
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mr-auto">
+              <li class="breadcrumb-item">
+                <a href="{% url 'systems' %}">
+                  <i class="fas fa-home"></i> Home</a>
+              </li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-md-auto">
+          <div class="edit-button"><a href="{% url 'admin:gallery_gallery_add' %}" title="New Gallery Item"><i class="fas fa-plus-circle"></i></a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <form id="galleryViewForm" class="form-inline" method="GET" href="{% url 'gallery' %}">
+            {% if categories %}
+            <button id="gallery_view_all" value="all" type="button" class="btn btn-outline-secondary mx-1 toggle-btn"><i class="fa fa-eye" aria-hidden="true"></i> All</button>
+            {% else %}
+            <button id="gallery_view_all" value="all" type="button" class="btn btn-success mx-1 toggle-btn"><i class="fa fa-eye" aria-hidden="true"></i> All</button>
+            {% endif %}
+            {% if 'monolith' in categories %}
+            <button id="gallery_view_monolith" value="monolith" type="button" class="btn btn-success mx-1 toggle-btn" data="on"><i class="fa fa-image" aria-hidden="true"></i> Monolith</button>
+            {% else %}
+            <button id="gallery_view_monolith" value="monolith" type="button" class="btn btn-outine-secondary mx-1 toggle-btn"><i class="fa fa-image" aria-hidden="true"></i> Monolith</button>
+            {% endif %}
+            {% if 'landscape' in categories %}
+            <button id="gallery_view_landscape" value="landscape" type="button" class="btn btn-success mx-1 toggle-btn" data="on"><i class="fa fa-image" aria-hidden="true"></i> Landscape</button>
+            {% else %}
+            <button id="gallery_view_landscape" value="landscape" type="button" class="btn btn-outine-secondary mx-1 toggle-btn"><i class="fa fa-image" aria-hidden="true"></i> Landscape</button>
+            {% endif %}
+            {% if 'misc' in categories %}
+            <button id="gallery_view_misc" value="misc" type="button" class="btn btn-success mx-1 toggle-btn" data="on"><i class="fa fa-image" aria-hidden="true"></i> Miscellaneous</button>
+            {% else %}
+            <button id="gallery_view_misc" value="misc" type="button" class="btn btn-outine-secondary mx-1 toggle-btn"><i class="fa fa-image" aria-hidden="true"></i> Miscellaneous</button>
+            {% endif %}
+            {% if 'ruin' in categories %}
+            <button id="gallery_view_ruin" value="ruin" type="button" class="btn btn-success mx-1 toggle-btn" data="on"><i class="fa fa-image" aria-hidden="true"></i> Ruin</button>
+            {% else %}
+            <button id="gallery_view_ruin" value="ruin" type="button" class="btn btn-outine-secondary mx-1 toggle-btn"><i class="fa fa-image" aria-hidden="true"></i> Ruin</button>
+            {% endif %}
+            {% if 'anomaly' in categories %}
+            <button id="gallery_view_anomaly" value="anomaly" type="button" class="btn btn-success mx-1 toggle-btn" data="on"><i class="fa fa-image" aria-hidden="true"></i> Space Anomaly</button>
+            {% else %}
+            <button id="gallery_view_anomaly" value="anomaly" type="button" class="btn btn-outine-secondary mx-1 toggle-btn"><i class="fa fa-image" aria-hidden="true"></i> Space Anomaly</button>
+            {% endif %}
+            {% if 'fauna' in categories %}
+            <button id="gallery_view_fauna" value="fauna" type="button" class="btn btn-success mx-1 toggle-btn" data="on"><i class="fa fa-image" aria-hidden="true"></i> Fauna</button>
+            {% else %}
+            <button id="gallery_view_fauna" value="fauna" type="button" class="btn btn-outine-secondary mx-1 toggle-btn"><i class="fa fa-image" aria-hidden="true"></i> Fauna</button>
+            {% endif %}
+            {% if 'flora' in categories %}
+            <button id="gallery_view_flora" value="flora" type="button" class="btn btn-success mx-1 toggle-btn" data="on"><i class="fa fa-image" aria-hidden="true"></i> Flora</button>
+            {% else %}
+            <button id="gallery_view_flora" value="flora" type="button" class="btn btn-outine-secondary mx-1 toggle-btn"><i class="fa fa-image" aria-hidden="true"></i> Flora</button>
+            {% endif %}
+            <button id="gallery_view_submit" value="submit" type="submit" class="btn btn-outine-secondary mx-1" title="Refresh"><i class="fas fa-sync-alt"></i></button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section id="gallery" class="py-4">
+    <div class="container">
+      <div class="row">
+
+        {% if gallery %}
+          {% for item in gallery %}
+        <!-- Item -->
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="card listing-preview">
+            
+            <a href="{{ item.photo_1.url|default_if_none:'#' }}" data-lightbox="home-images"><img class="card-img-top" src="{{ item.photo_1.url }}" alt=""></a>
+            
+            <div class="card-body">
+              <div class="listing-heading text-center">
+                <h4 class="text-primary">{{ item.description }}</h4>
+              </div>
+              <hr>
+              <div class="row py-0 text-secondary">
+                <div class="col">Category:
+                  <span class="float-right">{{item.type}}</span>
+                </div>
+              </div>
+              <div class="row py-0 text-secondary">
+                <div class="col">System:
+                  <span class="float-right">
+                    {% if item.system %}<a href="{% url 'system' item.system.id %}">{{ item.system.name }}</a>{% else %}Unknown{% endif %}
+                </span>
+                </div>
+              </div>
+              <div class="row py-0 text-secondary">
+                <div class="col">World:
+                  <span class="float-right">
+                    {% if item.world %}<a href="{% url 'world' item.world.id %}">{{ item.world.name }}</a>{% else %}Unknown{% endif %}
+                  </span>
+                </div>
+              </div>
+              
+              {% if not categories or 'ruin' in categories or 'monolith' in categories or 'misc' in categories or 'landscape' in categories %}
+              <div class="row py-0 text-secondary">
+                <div class="col">Coordinates:
+                  <span class="float-right">
+                    {% if item.coordinates %}{{ item.coordinates }}{% else %}Unknown{% endif %}
+                  </span>
+                </div>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+          {% endfor %}
+        {% else %}
+          <div class="col-md-12">
+            <p>No Gallery Items found</p>
+          </div>
+        {% endif %}
+
+      </div>
+
+      <!-- Paginator-->
+      <div class="row">
+        <div class="col-md-12">
+          {% if gallery.has_other_pages %}
+            <ul class="pagination">
+              {% if gallery.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{gallery.previous_page_number}}">&laquo;</a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link">&laquo;</a>
+                </li>
+              {% endif %}
+
+              {% for i in gallery.paginator.page_range %}
+                {% if gallery.number == i %}
+                  <li class="page-item active">
+                    <a class="page-link">{{i}}</a>
+                  </li>
+                {% else %}
+                  <li class="page-item">
+                    <a href="?page={{i}}" class="page-link">{{i}}</a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+
+              {% if gallery.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{gallery.next_page_number}}">&raquo;</a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link">&raquo;</a>
+                </li>
+              {% endif %}
+              
+            </ul>
+          {% endif %}
+        </div>
+      </div>
+    
+    </div>
+  </section>
+
+{% endblock %}

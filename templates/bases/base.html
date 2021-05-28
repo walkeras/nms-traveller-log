@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block title %} | {{ base.name }}{% endblock %}
+
+{% block content %}
+
+  <section id="showcase-inner" class="py-2 text-white base-banner">
+    <div class="container">
+
+      <div class="row text-center">
+        {% if base.photo_marquee %}
+          <div class="col-md-6 text-right">
+            <h1 class="display-4">
+              <img src="{{ world.photo_marquee.url }}" alt="" height="115" width="165" style="width:unset;">
+            </h1>
+          </div>
+          <div class="col-md-6 text-left">
+            <h1 class="display-4 nms-font">
+              {{ base.name }}
+            </h1>
+            <p class="lead">{{ base.description }}</p>
+          </div>
+        {% else %}
+          <div class="col-md-12">
+            <h1 class="display-4 nms-font">
+              {{ base.name }}
+            </h1>
+            <p class="lead">{{ base.description }}</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a>
+              </li>
+              <li class="breadcrumb-item">
+                <a href="{% url 'bases' %}">Bases</a>
+              </li>
+              <li class="breadcrumb-item active">{{ base.name }}</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-md-auto">
+          <div class="edit-button">
+            {% if prev_base %}<a href="{% url 'base' prev_base.id %}" title="{{ prev_base.name }}"><i class="fas fa-chevron-left"></i></a>
+            {% else %} <a href="#" title="No previous Base"><i class="fas fa-chevron-left"></i></a>
+            {% endif %}
+          </div>
+        </div>
+        <div class="col-md-auto">
+            <div class="edit-button">
+              {% if next_base %}<a href="{% url 'base' next_base.id %}" title="{{ next_base.name }}"><i class="fas fa-chevron-right"></i></a>
+              {% else %} <a href="#" title="No next Base"><i class="fas fa-chevron-right "></i></a>
+              {% endif %}
+            </div>
+        </div>
+        <div class="col-md-auto">
+          <div class="edit-button"><a href="{% url 'admin:bases_base_change' base.id %}"><i class="fas fa-edit"></i></a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Base -->
+  <section id="base" class="py-2">
+    <div class="container">
+      <!-- First Row -->
+      <div class="row">
+        <div class="col-md-9">
+          <!-- Photo thumbnails -->
+          <div class="row mb-5 thumbs">
+              {% if base.photo_1 %}
+                <div class="col-md-2">
+                <a href="{{ base.photo_1.url }}" data-lightbox="home-images">
+                    <img src="{{ base.photo_1.url }}" alt="" class="img-fluid">
+                </a>
+                </div>
+            {% endif %}
+            {% if base.photo_2 %}
+                <div class="col-md-2">
+                <a href="{{ base.photo_2.url }}" data-lightbox="home-images">
+                    <img src="{{ base.photo_2.url }}" alt="" class="img-fluid">
+                </a>
+                </div>
+            {% endif %}
+            {% if base.photo_3 %}
+                <div class="col-md-2">
+                <a href="{{ base.photo_3.url }}" data-lightbox="home-images">
+                    <img src="{{ base.photo_3.url }}" alt="" class="img-fluid">
+                </a>
+                </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <!-- Second Row -->
+      <div class="row fields">
+        <div class="col-md-12">
+          <!-- Fields -->
+          <div class="row mb-2 fields">
+            <!-- Column 1: Base Data -->
+            <div class="col-md-4 fields">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item text-secondary">
+                  <i class="fas fa-globe"></i> System:
+                  {% if base.world.system %}
+                  <span class="float-right"><a href="{% url 'system'  base.world.system.id %}">{{ base.world.system.name }}</a></span>
+                  {% else %}
+                  <span class="float-right">None</span>
+                  {% endif %}
+                </li>
+                <li class="list-group-item text-secondary">
+                  <i class="fas fa-globe"></i> World:
+                  {% if base.world %}
+                  <span class="float-right"><a href="{% url 'world'  base.world.id %}">{{ base.world.name }}</a></span>
+                  {% else %}
+                  <span class="float-right">None</span>
+                  {% endif %}
+                </li>
+                <li class="list-group-item text-secondary">
+                  <i class="fas fa-globe"></i> Galaxy:
+                  <span class="float-right">{% if base.galaxy %} {{ base.galaxy.name }} {% else %} Unknown {% endif %}
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>  
+            
+      <!-- Portal Address row -->
+      <div class="row mb-2 fields">
+        <div class="col-md-6">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item text-secondary">
+              <i class="fas fa-map-marked-alt"></i> Portal Address
+              {% if base.portal_address %}
+              <span class="nms-glyphs border border-primary rounded-pill ml-2 px-2 py-2">{{ base.portal_address }}</span>
+              {% else %}
+              <span>Unknown</span>
+              {% endif %}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="row mb-5 fields">
+        <div class="col-md-12">
+          <ul class="list-inline">
+            {% for comment in comment_list %}
+            {% if comment|length > 0 %}<li class="list-inline-item border border-primary rounded-pill px-2"> <i class="fas fa-info-circle"></i> {{ comment }} </li>{% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}
