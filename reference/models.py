@@ -1,5 +1,6 @@
 from django.db import models
 
+
 #
 # EconomyLevel
 #
@@ -17,30 +18,32 @@ class EconomyLevel(models.Model):
     name = models.CharField(max_length=20)
 
     # Level - A/B/C/U - Unknown/X - Data Unavailable
-    level = models.CharField(max_length=1,choices=ECONOMY_LEVEL_CHOICES,default='U')
+    level = models.CharField(max_length=1, choices=ECONOMY_LEVEL_CHOICES, default='U')
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['name'],name='unique_level_name'),
+            models.UniqueConstraint(fields=['name'], name='unique_level_name'),
         ]
 
     def __str__(self):
         return self.name
+
 
 #
 # Resource
 #
 class Resource(models.Model):
     # Resource Name
-    name = models.CharField(max_length=50,blank=False)
+    name = models.CharField(max_length=50, blank=False)
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['name'],name='unique_resource_name'),
+            models.UniqueConstraint(fields=['name'], name='unique_resource_name'),
         ]
 
     def __str__(self):
         return self.name
+
 
 #
 # Galaxy
@@ -55,47 +58,49 @@ class Galaxy(models.Model):
         }
 
     # Galaxy Name
-    name = models.CharField(max_length=50,blank=False)
+    name = models.CharField(max_length=50, blank=False)
 
     # Galaxy type
-    type = models.CharField(max_length=5, choices=GALAXY_TYPE_CHOICES,default='Norm')
+    type = models.CharField(max_length=5, choices=GALAXY_TYPE_CHOICES, default='Norm')
 
     # Galaxy Order
     order = models.IntegerField(blank=True, null=True)
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['name'],name='unique_galaxy_name'),
+            models.UniqueConstraint(fields=['name'], name='unique_galaxy_name'),
         ]
 
     def __str__(self):
         return self.name
+
 
 #
 # Fauna Bait
 #
 class FaunaBait(models.Model):
     # Bait Name
-    name = models.CharField(max_length=50,blank=False)
+    name = models.CharField(max_length=50, blank=False)
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['name'],name='unique_faunabait_name'),
+            models.UniqueConstraint(fields=['name'], name='unique_faunabait_name'),
         ]
 
     def __str__(self):
         return self.name
+
 
 #
 # Ingredient
 #
 class Ingredient(models.Model):
     # Name
-    name = models.CharField(max_length=50,blank=False)
+    name = models.CharField(max_length=50, blank=False)
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['name'],name='unique_ingredient_name'),
+            models.UniqueConstraint(fields=['name'], name='unique_ingredient_name'),
         ]
 
     def __str__(self):

@@ -2,11 +2,13 @@ from django.db import models
 from worlds.models import World
 from reference.models import Galaxy
 
-'''
-    Base
-    May have multiple Bases per World.
-'''
+
 class Base(models.Model):
+    """
+    Base.
+
+    May have multiple Bases per World.
+    """
 
     # Name
     name = models.CharField(max_length=50, blank=False, unique=True)

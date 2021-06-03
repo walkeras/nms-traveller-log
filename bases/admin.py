@@ -1,9 +1,12 @@
 from django.contrib import admin
-from .models import Base
 from worlds.models import World
 from reference.models import Galaxy
+from .models import Base
+
 
 class BaseAdmin(admin.ModelAdmin):
+    """BaseAdmin class."""
+
     list_display = ('id', 'name', 'description', 'world')
     list_display_links = ('id', 'name')
     list_per_page = 25
@@ -16,5 +19,6 @@ class BaseAdmin(admin.ModelAdmin):
             kwargs["queryset"] = Galaxy.objects.order_by('name')
 
         return super(BaseAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+
 
 admin.site.register(Base, BaseAdmin)

@@ -182,7 +182,7 @@
                         {% endif %}
                       </span>
 
-                      {% elif world.weather_hazard_type == 'C' %} 
+                      {% elif world.weather_hazard_type == 'C' %}
                       <span class="float-right weather-hazard-cold"> Cold
                         {% if world.weather_rating == 'L' %}
                         <i class="fas fa-circle"></i><i class="far fa-circle"></i><i class="far fa-circle"></i>
@@ -270,9 +270,14 @@
                   {% elif world.sentinel_hostility_level == 'U' %}
                   <span class="float-right" style="color: gray"><i class="fas fa-question"></i><i class="fas fa-question"></i><i class="fas fa-question"></i></span>
                   {% endif %}
-                {% if world.sentinel_hostility_desc %}
-                    <p><span class="float-right">{{ world.sentinel_hostility_desc }}</span></p>
-                  {% endif %}
+                  <ul style="list-style-type: none;">
+                    {% if world.sentinel_desc %}
+                      <li>{{ world.sentinel_desc }}</li>
+                    {% endif %}
+                    {% if world.sentinel_hostility_desc %}
+                      <li>{{ world.sentinel_hostility_desc }}</li>
+                    {% endif %}
+                  </ul>
                 </li>
               </ul>
             </div>
@@ -324,6 +329,21 @@
                   <i class="fas fa-paw"></i> Fauna Discovered:
                   <span class="float-right">{% if world.fauna_discovered %}{{ world.fauna_discovered }}{% else %}0{% endif %} / {% if world.fauna_maximum %}{{ world.fauna_maximum }}{% else %}{{ world.fauna_maximum|default_if_none:"??" }}{% endif %}</span>
                 </li>
+                <li class="list-group-item text-secondary">
+                  <i class="fas fa-seedling"></i> Flora:
+                  <span class="float-right">{{ world.flora_desc }}</span>
+                </li>
+                <li class="list-group-item text-secondary">
+                  <i class="fas fa-globe"></i> Galaxy:
+                  {% if world.system.galaxy %}
+                    {% if world.system.galaxy.type == 'Norm' %}<span class="float-right galaxy-norm" title="Norm">{{ world.system.galaxy.name }}</span>
+                    {% elif world.system.galaxy.type == 'Lush' %} <span class="float-right galaxy-lush" title="Lush">{{ world.system.galaxy.name }}</span>
+                    {% elif world.system.galaxy.type == 'Harsh' %} <span class="float-right galaxy-harsh" title="Harsh">{{ world.system.galaxy.name }}</span>
+                    {% elif world.system.galaxy.type == 'Empty' %} <span class="float-right galaxy-empty" title="Empty">{{ world.system.galaxy.name }}</span>
+                  {% endif %}
+                  {% else %} <span class="float-right galaxy-empty" title="Unknown">Unknown Galaxy
+                  {% endif %}
+                </li>
                 {% if world.is_weather_extreme %}
                 <li class="list-group-item text-secondary border border-primary rounded-pill px-2 py-1 my-1">
                   <i class="fas fa-info-circle" style="color: red;"></i> Extreme World
@@ -343,8 +363,8 @@
             </div>
           </div>
         </div>
-      </div>  
-            
+      </div>
+
       <!-- Portal Address row -->
       {% if world.portal_address %}
       <div class="row mb-3 fields shadow">
@@ -380,7 +400,7 @@
       <div class="row">
         <div class="col-md-12">
           <h2>Bases</h2>
-          
+
             <table class="table">
               <thead>
                 <tr>

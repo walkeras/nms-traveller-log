@@ -1,5 +1,6 @@
 from django.db import models
 
+
 #
 # Model to hold Game Sessions
 #
@@ -10,7 +11,7 @@ class GameSession(models.Model):
     PLAYSTATION = 'PlayStation'
     WINDOWS = 'Windows'
 
-    PLATFORM_CHOICES = [ (XBOX, XBOX), (STEAM, STEAM), (PLAYSTATION, PLAYSTATION), (WINDOWS, WINDOWS) ]
+    PLATFORM_CHOICES = [(XBOX, XBOX), (STEAM, STEAM), (PLAYSTATION, PLAYSTATION), (WINDOWS, WINDOWS)]
     PLATFORM_CHOICES_DICT = dict(PLATFORM_CHOICES)
 
     SURVIVAL = "Survival"
@@ -18,7 +19,7 @@ class GameSession(models.Model):
     NORMAL = "Normal"
     PERMADEATH = "Perma-Death"
 
-    SESSION_TYPE_CHOICES = [ (SURVIVAL, SURVIVAL), (CREATIVE, CREATIVE), (NORMAL, NORMAL), (PERMADEATH, PERMADEATH) ]
+    SESSION_TYPE_CHOICES = [(SURVIVAL, SURVIVAL), (CREATIVE, CREATIVE), (NORMAL, NORMAL), (PERMADEATH, PERMADEATH)]
     SESSION_TYPE_CHOICES_DICT = dict(SESSION_TYPE_CHOICES)
 
     # Name
@@ -32,4 +33,3 @@ class GameSession(models.Model):
 
     def __str__(self):
         return self.name
-

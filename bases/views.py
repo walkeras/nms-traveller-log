@@ -1,11 +1,11 @@
-from django.shortcuts import render, get_object_or_404
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 import logging
+from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator
 from .models import Base
-from main.models import GameSession
 from main.views import getGameSession
 
 logger = logging.getLogger(__name__)
+
 
 def index(request):
     bases = Base.objects.order_by('name')
@@ -32,6 +32,7 @@ def index(request):
 
     return render(request, 'bases/bases.html', context)
 
+
 def base(request, base_id):
 
     # Get Game Session
@@ -44,16 +45,20 @@ def base(request, base_id):
     qs = Base.objects.order_by('name')
     # Next
     next_base = qs.filter(name__gt=base.name).order_by('name').first()
-    if next_base == None:
+    if next_base is None:
         logger.debug('No next base')
     # Previous
     prev_base = qs.filter(name__lt=base.name).order_by('-name').first()
-    if prev_base == None:
+    if prev_base is None:
         logger.debug('No previous base')
 
     # Create a list of comments delimited by pipe '|'
     comment_list = base.description.strip().split('|')
     base.description = base.description.replace("|", " - ")
+
+    # Remove potential empty comment at end of list produced by split
+    if len(comment_list) > 0 and len(comment_list[len(comment_list) - 1]) == 0:
+        del(comment_list[len(comment_list) - 1])
 
     context = {
         'base': base,

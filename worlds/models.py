@@ -2,9 +2,10 @@ from django.db import models
 from reference.models import Resource, FaunaBait, Ingredient
 from systems.models import System
 
-'''
-    World
-'''
+
+#
+# World
+#
 class World(models.Model):
 
     # High/Medium/Low/Unknown Choices
@@ -27,7 +28,13 @@ class World(models.Model):
     TOXIC = 'T'
     RADIATION = 'R'
     HOT_RAIN = 'S'
-    WEATHER_HAZARD_CHOICES = [(NONE, 'None'),(HEAT, 'Heat'),(HOT_RAIN, 'Hot Rain'),(COLD, 'Cold'),(TOXIC, 'Toxic'),(RADIATION, 'Radiation'),(UNKNOWN, 'Unknown')]
+    WEATHER_HAZARD_CHOICES = [(NONE, 'None'),
+                              (HEAT, 'Heat'),
+                              (HOT_RAIN, 'Hot Rain'),
+                              (COLD, 'Cold'),
+                              (TOXIC, 'Toxic'),
+                              (RADIATION, 'Radiation'),
+                              (UNKNOWN, 'Unknown')]
     WEATHER_HAZARD_CHOICES_DICT = dict(WEATHER_HAZARD_CHOICES)
 
     # Name
@@ -40,7 +47,7 @@ class World(models.Model):
     fauna_desc = models.CharField(max_length=20, blank=True, help_text="From Discovery Data")
 
     # Fauna Discovered
-    fauna_discovered = models.IntegerField(blank=True, null=True);
+    fauna_discovered = models.IntegerField(blank=True, null=True)
 
     # Fauna Hostility Description - eg. No Attacks, Frequent Attacks, Occasional Attacks
     fauna_hostility_desc = models.CharField(max_length=50, blank=True, help_text="Additional description, eg. Frequent Attacks, Occasional Attacks")
@@ -49,10 +56,10 @@ class World(models.Model):
     fauna_hostility_level = models.CharField(max_length=1, default=UNKNOWN, choices=H_M_L_U_CHOICES, help_text="Low - No attacks. Medium - Occasional Attacks. High - Frequent Attacks.")
 
     # Fauna Maximum
-    fauna_maximum = models.IntegerField(blank=True, null=True);
+    fauna_maximum = models.IntegerField(blank=True, null=True)
 
     # Favourite
-    favourite = models.BooleanField(default=False);
+    favourite = models.BooleanField(default=False)
 
     # Flora Description - eg. Bountiful, etc
     flora_desc = models.CharField(max_length=20, blank=True, help_text="From Discovery Data")
@@ -74,7 +81,7 @@ class World(models.Model):
     photo_4 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
     photo_5 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
     photo_6 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
-    
+
     # Portal Address
     portal_address = models.CharField(max_length=200, blank=True, help_text="Hex code from https://nmsportals.github.io/")
 
@@ -119,9 +126,10 @@ class World(models.Model):
     def __str__(self):
         return self.name
 
-'''
-    Fauna
-'''
+
+#
+# Fauna
+#
 class Fauna(models.Model):
 
     # Bait

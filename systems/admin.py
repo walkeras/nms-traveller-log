@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import System
 from reference.models import EconomyLevel
-from systems.models import System
+
 
 class SystemAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'discovered_date', 'economy_level', 'race', 'portal_address', 'near_system', 'gc_dist')
@@ -16,5 +16,6 @@ class SystemAdmin(admin.ModelAdmin):
             kwargs["queryset"] = System.objects.order_by('name')
 
         return super(SystemAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+
 
 admin.site.register(System, SystemAdmin)

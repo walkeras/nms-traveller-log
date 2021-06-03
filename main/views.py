@@ -4,6 +4,7 @@ from .models import GameSession
 
 logger = logging.getLogger(__name__)
 
+
 def index(request):
     items = GameSession.objects.order_by("id")
 
@@ -11,11 +12,12 @@ def index(request):
     gameSession = getGameSession(request)
 
     context = {
-        'gamesessions' : items,
-        'gameSession' : gameSession
+        'gamesessions': items,
+        'gameSession': gameSession
     }
 
     return render(request, 'gamesessions/gamesession.html', context)
+
 
 def getGameSession(request):
     # Get Game Session information from cookie "game_session"

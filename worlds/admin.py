@@ -4,6 +4,7 @@ from .models import World, Fauna
 from reference.models import Resource, FaunaBait, Ingredient
 from systems.models import System
 
+
 class WorldAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'description', 'has_base', 'is_exotic', 'system')
     list_display_links = ('id', 'name')
@@ -17,6 +18,7 @@ class WorldAdmin(admin.ModelAdmin):
             kwargs["queryset"] = System.objects.order_by('name')
 
         return super(WorldAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+
 
 class FaunaAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'world')
@@ -35,6 +37,7 @@ class FaunaAdmin(admin.ModelAdmin):
             kwargs["queryset"] = World.objects.order_by('name')
 
         return super(FaunaAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+
 
 admin.site.register(World, WorldAdmin)
 admin.site.register(Fauna, FaunaAdmin)

@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.paginator import Paginator
 import logging
 from .models import Gallery
 
 logger = logging.getLogger(__name__)
+
 
 # Create your views here.
 def index(request):
@@ -55,7 +56,7 @@ def index(request):
     paged_items = paginator.get_page(page)
 
     context = {
-        'gallery' : paged_items,
+        'gallery': paged_items,
         'categories': categories
     }
 

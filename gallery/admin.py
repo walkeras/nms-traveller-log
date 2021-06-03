@@ -3,6 +3,7 @@ from .models import Gallery
 from systems.models import System
 from worlds.models import World
 
+
 class GalleryAdmin(admin.ModelAdmin):
     list_display = ('id', 'description', 'type')
     list_display_links = ('id', 'description')
@@ -16,5 +17,6 @@ class GalleryAdmin(admin.ModelAdmin):
             kwargs["queryset"] = World.objects.order_by('name')
 
         return super(GalleryAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+
 
 admin.site.register(Gallery, GalleryAdmin)

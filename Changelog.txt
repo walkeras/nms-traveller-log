@@ -1,3 +1,10 @@
-Version 1.0.0
-=============
+# Changelog
+
+## v1.0.2
+- Improved look of Base page
+
+## v1.0.1
+- Add flora and sentinel desc to world page
+
+## v1.0.0
 - Initial release
