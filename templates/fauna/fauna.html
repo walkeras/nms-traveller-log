@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block title %} | Browse Fauna{% endblock %}
+
+{% block content %}
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mr-auto">
+              <li class="breadcrumb-item">
+                <a href="{% url 'systems' %}">
+                  <i class="fas fa-home"></i> Home</a>
+              </li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-md-auto">
+          <div class="edit-button"><a href="{% url 'admin:fauna_fauna_add' %}" title="New Fauna"><i class="fas fa-plus-circle"></i></a></div>
+        </div>
+        <div class="col-md-auto">
+          <form id="faunaSortByForm" class="form-inline my-2 my-lg-0" method="GET">
+            {% csrf_token %}
+            <span class="mr-2">Sort By</span>
+            <select class="form-control" name="sortBy" id="faunaSortBy">
+              {% for key,value in sortByChoices.items %}
+                <option value="{{ key }}"
+                {% if key == sortBy %}
+                  selected
+                {% endif %}
+                > {{ value }}</option>
+              {% endfor %}
+          </select>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section id="fauna" class="py-4">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-md-12">
+          <h2>{% if total_fauna > 0 %}{{ total_fauna }} {% endif %} Fauna</h2>
+        </div>
+        {% if fauna %}
+          {% for item in fauna %}
+        <!-- Item -->
+        <div class="col-md-3 mb-4">
+          <div class="card listing-preview h-100">
+            <div class="h-75">
+              <div class="card-header" style="font-style: italic;">{{ item.name }}
+
+                <span class="float-right"><a href="{% url 'admin:fauna_fauna_change' item.id %}"><i class="fas fa-edit"></i></a></span>
+              </div>
+
+              <a href="{{ item.photo.url|default_if_none:'#' }}" data-lightbox="home-images"><img class="card-img" src="{{ item.photo.url }}" alt=""></a>
+            </div>
+
+            <div class="card-body">
+              <div class="row py-0 text-secondary">
+
+                <div class="col">World:
+                  <span class="float-right">
+                    {% if item.world %}<a href="{% url 'world' item.world.id %}">{{ item.world.name }}</a>{% else %}Unknown{% endif %}
+                  </span>
+                </div>
+              </div>
+
+              {% if item.description %}
+              <div class="row py-0 text-secondary">
+                <div class="col">Description:
+                  <span class="float-right">
+                    <span class="float-right">{{ item.description }}</span>
+                  </span>
+                </div>
+              </div>
+              {% endif %}
+
+              <div class="row py-0 text-secondary">
+                <div class="col">Flesh:
+                  <span class="float-right">
+                    <span class="float-right">{% if item.flesh %}{{ item.flesh }}{% else %}Unknown{% endif %}</span>
+                  </span>
+                </div>
+              </div>
+
+              <div class="row py-0 text-secondary">
+                <div class="col">Product:
+                  <span class="float-right">
+                    <span class="float-right">{% if item.product %}{{ item.product }}{% else %}Unknown{% endif %}</span>
+                  </span>
+                </div>
+              </div>
+
+              {% if item.is_hostile %}
+              <div class="row py-0 text-secondary">
+                <div class="col" style="color: red">Hostile</div>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+          {% endfor %}
+        {% else %}
+          <div class="col-md-12">
+            <p>No Fauna found</p>
+          </div>
+        {% endif %}
+
+      </div>
+
+      <!-- Paginator-->
+      <div class="row">
+        <div class="col-md-12">
+          {% if fauna.has_other_pages %}
+            <ul class="pagination">
+              {% if fauna.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{fauna.previous_page_number}}">&laquo;</a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link">&laquo;</a>
+                </li>
+              {% endif %}
+
+              {% for i in fauna.paginator.page_range %}
+                {% if fauna.number == i %}
+                  <li class="page-item active">
+                    <a class="page-link">{{i}}</a>
+                  </li>
+                {% else %}
+                  <li class="page-item">
+                    <a href="?page={{i}}" class="page-link">{{i}}</a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+
+              {% if fauna.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{fauna.next_page_number}}">&raquo;</a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link">&raquo;</a>
+                </li>
+              {% endif %}
+
+            </ul>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+{% endblock %}

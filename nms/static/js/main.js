@@ -7,6 +7,12 @@ $(document).ready(function(){
         $(this).attr('href', href + '&sortBy=' + $('#systemSortBy').children("option:selected").val());
     });
 
+    // Dynamically add 'sortBy' param to Fauna page navigation links when they are clicked
+    $("#fauna .page-link").bind("click", function() {
+        let href = $(this).attr('href');
+        $(this).attr('href', href + '&sortBy=' + $('#faunaSortBy').children("option:selected").val());
+    });
+
     // Dynamically add 'category' param to Gallery page navigation links when they are clicked
     $("#gallery .page-link").bind("click", function() {
         let href = $(this).attr('href');
@@ -16,6 +22,11 @@ $(document).ready(function(){
     // Sort Systems immediately when sort option changed
     $("#systemSortBy").change(function() {
         $("#systemSortByForm").submit()
+    });
+
+    // Sort Fauna immediately when sort option changed
+    $("#faunaSortBy").change(function() {
+        $("#faunaSortByForm").submit()
     });
 
     // Set Game Session cookie immediately when option changed

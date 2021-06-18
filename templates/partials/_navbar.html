@@ -15,8 +15,8 @@
                 {% if '/' == request.path %}
                     class="nav-item active mr-3"
                 {% else %}
-                    class="nav-item mr-3"    
-                {% endif %} 
+                    class="nav-item mr-3"
+                {% endif %}
             >
             <a class="nav-link" href="">Home</a>
             </li>
@@ -24,8 +24,8 @@
                 {% if 'about' in request.path %}
                     class="nav-item active mr-3"
                 {% else %}
-                    class="nav-item mr-3"    
-                {% endif %} 
+                    class="nav-item mr-3"
+                {% endif %}
             >
             <a class="nav-link" href="">About</a>
             </li>
@@ -34,8 +34,8 @@
                 {% if 'systems' in request.path %}
                     class="nav-item active mr-3"
                 {% else %}
-                    class="nav-item mr-3"    
-                {% endif %} 
+                    class="nav-item mr-3"
+                {% endif %}
             >
             <a class="nav-link" href="{% url 'systems' %}">Systems</a>
             </li>
@@ -43,8 +43,8 @@
                 {% if 'worlds' in request.path %}
                     class="nav-item active mr-3"
                 {% else %}
-                    class="nav-item mr-3"    
-                {% endif %} 
+                    class="nav-item mr-3"
+                {% endif %}
             >
             <a class="nav-link" href="{% url 'worlds' %}">Worlds</a>
             </li>
@@ -52,17 +52,28 @@
                 {% if 'bases' in request.path %}
                     class="nav-item active mr-3"
                 {% else %}
-                    class="nav-item mr-3"    
-                {% endif %} 
+                    class="nav-item mr-3"
+                {% endif %}
             >
             <a class="nav-link" href="{% url 'bases' %}">Bases</a>
             </li>
+
+            <li
+                {% if 'fauna' in request.path %}
+                    class="nav-item active mr-3"
+                {% else %}
+                    class="nav-item mr-3"
+                {% endif %}
+            >
+            <a class="nav-link" href="{% url 'fauna' %}">Fauna</a>
+            </li>
+
             <li
                 {% if 'gallery' in request.path %}
                     class="nav-item active mr-3"
                 {% else %}
-                    class="nav-item mr-3"    
-                {% endif %} 
+                    class="nav-item mr-3"
+                {% endif %}
             >
             <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
             </li>
@@ -70,8 +81,8 @@
                 {% if 'gamesession' in request.path %}
                     class="nav-item active mr-3"
                 {% else %}
-                    class="nav-item mr-3"    
-                {% endif %} 
+                    class="nav-item mr-3"
+                {% endif %}
             >
             <a class="nav-link" href="{% url 'gamesessions' %}">Game Session</a>
             </li>
@@ -125,4 +136,3 @@
         </div>
     </div>
 </nav>
-    
