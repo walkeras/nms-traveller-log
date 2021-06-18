@@ -35,7 +35,7 @@ __Note:__ This upgrade will delete all your existing fauna unless you follow the
 
 7. Run the following command to load your saved fauna data:
 
-  `python3 loaddata fauna.json`  
+  `python3 manage.py loaddata fauna.json`  
 
 8. Start the application.
 9. Enjoy!
