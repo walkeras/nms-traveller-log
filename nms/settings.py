@@ -15,7 +15,7 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-PROJECT_VERSION = "1.0.2"
+PROJECT_VERSION = "1.1.0"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'bases.apps.BasesConfig',
     'gallery.apps.GalleryConfig',
     'main.apps.MainConfig',
+    'fauna.apps.FaunaConfig',
     'django.contrib.humanize',
 ]
 

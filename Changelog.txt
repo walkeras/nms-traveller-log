@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.1.0
+ - Added separate Fauna page (See `UPGRADING.md`)
+
 ## v1.0.2
 - Improved look of Base page
 

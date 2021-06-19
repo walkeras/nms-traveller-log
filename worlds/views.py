@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 import logging
-from .models import World, Fauna
+from .models import World
 from bases.models import Base
+from fauna.models import Fauna
 from reference.models import Resource, Galaxy
-from django.db.models import Q, F
+from django.db.models import Count, Q, F
 from main.views import getGameSession
 
 # Number of Worlds to display per page
@@ -271,5 +272,12 @@ def evalaute_filters(request, worlds):
     if 'all_fauna_found' in request.GET and request.GET['all_fauna_found'] == 'on':
         isSearch = True
         worlds = worlds.filter(fauna_discovered__exact=F('fauna_maximum'), fauna_maximum__gt=0)
+
+    # Filter by Fauna Recorded
+    if 'fauna_recorded' in request.GET and request.GET['fauna_recorded'] == 'on':
+        isSearch = True
+        # Add virtual field 'num_fauna_recorded' to the result set
+        worlds = worlds.annotate(num_fauna_recorded=Count('fauna'))
+        worlds = worlds.filter(num_fauna_recorded__gt=0)
 
     return worlds

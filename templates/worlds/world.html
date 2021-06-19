@@ -255,9 +255,14 @@
                     {% elif world.fauna_hostility_level == 'U' %}
                     <span class="float-right" style="color: gray"><i class="fas fa-question"></i><i class="fas fa-question"></i><i class="fas fa-question"></i></span>
                     {% endif %}
+                    <ul style="list-style-type: none;">
                   {% if world.fauna_hostility_desc %}
-                    <p><span class="float-right">{{ world.fauna_hostility_desc }}</span></p>
+                        <li>{{ world.fauna_hostility_desc }}</li>
                   {% endif %}
+                      {% if world.fauna_desc %}
+                        <li>{{ world.fauna_desc }}</li>
+                      {% endif %}
+                    </ul>
                 </li>
                 <li class="list-group-item text-secondary">
                   <i class="fas fa-eye"></i> Sentinel Hazard Level:
@@ -437,7 +442,9 @@
       <div class="row">
         {% for f in fauna %}
           <div class="col-md-3 fields">
-            <p style="font-style: italic;">{{ f.name }}</p>
+            <div class="pb-1" style="font-style: italic;">{{ f.name }}
+              <span class="float-right"><a href="{% url 'admin:fauna_fauna_change' f.id %}"><i class="fas fa-edit"></i></a></span>
+            </div>
             <a href="{{ f.photo.url }}" data-lightbox="home-images">
               <img src="{{ f.photo.url }}" alt="" class="img-fluid">
             </a>
