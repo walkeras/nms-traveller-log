@@ -16,7 +16,6 @@ These are the general instructions to upgrade your application to a new version,
   `python3 manage.py migrate`  
 
 5. Start the application.
-6. Enjoy!
 
 ## Upgrading to v1.1.0
 __Note:__ This upgrade will delete all your existing fauna unless you follow the instructions below to migrate your data. If you have no fauna data or do not wish to save it then you can follow the general upgrade instructions above.
@@ -31,6 +30,11 @@ __Note:__ This upgrade will delete all your existing fauna unless you follow the
 6. Run the following commands to perform any database changes included in the new release:
 
   `python3 manage.py makemigrations`  
+
+  __Note:__ If you see an error like this: `CommandError: Conflicting migrations detected; multiple leaf nodes in the migration graph: (0021_auto_20210619_0953, 0021_auto_20210602_1930 in systems).
+To fix them run 'python manage.py makemigrations --merge'`.
+  Follow the instruction to merge the migrations and proceed with the next step.
+
   `python3 manage.py migrate`  
 
 7. Run the following command to load your saved fauna data:
@@ -38,4 +42,3 @@ __Note:__ This upgrade will delete all your existing fauna unless you follow the
   `python3 manage.py loaddata fauna.json`  
 
 8. Start the application.
-9. Enjoy!
